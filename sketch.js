@@ -29,8 +29,13 @@ var sizeBox     = 35,
         jumpValue   : 22,
         sizeValue   : 30
     }
+var mario;
 function preload() {
-      imgBlock = loadImage("assets/block.png");
+      imgBlock = loadImage("block.png");
+      imgBlock2 = loadImage("block2.png");
+      ghostFront = loadImage("ghostFront.png");
+      ghostLeft = loadImage("ghostLeft.png");
+      ghostRight = loadImage("ghostRight.png");
     }
 var garbArray = [];
 var timeSpeed = 100;
@@ -91,12 +96,13 @@ function setup() {//=========Start SETUP========================================
     this.inAir  = false;
     this.vel    = createVector(0,0);
     this.acc    = createVector(0,0);
-    this.display= function(){ ellipse(this.pos.x, this.pos.y, this.size) };
+    this.display= marioDisplay;
     this.collide= function(){var colP = this.colPoints; collision(boxArr, colP)};
     this.colPoints; // arr of the four points of the hit box
     // method to establish the four Points of hitBox
     this.collisionPointsSetup = function(){this.colPoints = createCollisionPoints(this.pos,this.size);};
     this.amIdead = amIdead;
+    this.looks = true;
   }
 // Establish Garbage constructor
   function Garbage(x,y){
@@ -139,9 +145,11 @@ function draw(){//=========Start DRAW==========================================
   if(keyIsPressed===true && gameover === false){
     if(keyCode === RIGHT_ARROW){
       mario.acc.add(createVector(marioInput.speedValue,0));
+      mario.looks = false;
     }
     if(keyCode === LEFT_ARROW && gameover === false){
-      mario.acc.add(createVector(-marioInput.speedValue,0))
+      mario.acc.add(createVector(-marioInput.speedValue,0));
+      mario.looks = true;
     }
   }
 } // Ende draw();==============================================================
@@ -221,10 +229,9 @@ function worldBuilding(){
       if(worldSetup[y][x]===false){
         // Start Punkt links Oben
         (function(){
-            function setup(){
             // fill(0,0,0,10);
-            image(imgBlock,x*sizeBox,y*sizeBox,sizeBox,sizeBox);
-          }
+            image(imgBlock2,x*sizeBox,y*sizeBox,sizeBox,sizeBox);
+
         })()
 
       }
@@ -243,5 +250,16 @@ function renderGarbage(){
   for(var i = 0 ; i<garbArray.length ; i++){
       garbArray[i].display();
       if(p5.Vector.dist(mario.pos, garbArray[i].pos)<10){garbArray.splice(i,1);blockHeight-=10}
+  }
+}
+function marioDisplay(){
+  if(mario.acc.x === 0){
+    image(ghostFront,mario.pos.x-mario.size/2,mario.pos.y-mario.size/2,mario.size,mario.size);
+  } else
+  if(mario.looks === true){
+    image(ghostLeft,mario.pos.x-mario.size/2,mario.pos.y-mario.size/2,mario.size,mario.size);
+  } else
+  if(mario.looks === false){
+    image(ghostRight,mario.pos.x-mario.size/2,mario.pos.y-mario.size/2,mario.size,mario.size);
   }
 }

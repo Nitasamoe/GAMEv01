@@ -30,7 +30,7 @@ var sizeBox     = 35,
         sizeValue   : 30
     }
 function preload() {
-      imgBlock = loadImage("./assets/block.png");
+      imgBlock = loadImage("assets/block.png");
     }
 var garbArray = [];
 var timeSpeed = 100;
@@ -221,9 +221,10 @@ function worldBuilding(){
       if(worldSetup[y][x]===false){
         // Start Punkt links Oben
         (function(){
+            function setup(){
             // fill(0,0,0,10);
-            rect(x*sizeBox,y*sizeBox,sizeBox,sizeBox);
-
+            image(imgBlock,x*sizeBox,y*sizeBox,sizeBox,sizeBox);
+          }
         })()
 
       }

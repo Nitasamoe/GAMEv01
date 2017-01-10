@@ -29,6 +29,9 @@ var sizeBox     = 35,
         jumpValue   : 22,
         sizeValue   : 30
     }
+function preload() {
+      imgBlock = loadImage("./assets/block.png");
+    }
 var garbArray = [];
 var timeSpeed = 100;
 var worldClock = {
@@ -218,10 +221,11 @@ function worldBuilding(){
       if(worldSetup[y][x]===false){
         // Start Punkt links Oben
         (function(){
-            noStroke();
-            fill(0,0,0,10);
+            // fill(0,0,0,10);
             rect(x*sizeBox,y*sizeBox,sizeBox,sizeBox);
-            })()
+
+        })()
+
       }
     }
   }
